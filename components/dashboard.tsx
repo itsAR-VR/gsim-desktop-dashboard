@@ -231,7 +231,7 @@ export default function Dashboard() {
                           <PhoneCall className="w-4 h-4 text-muted-foreground" />
                           <span className="text-sm">Voice</span>
                         </div>
-                        <span className="text-sm font-medium">72 mins used / 120 mins</span>
+                        <span className="text-sm font-medium">72 mins / 120 mins</span>
                       </div>
                       <Progress value={60} className="h-2" />
                       <div className="flex justify-between items-center">

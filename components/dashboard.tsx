@@ -53,7 +53,7 @@ export default function Dashboard() {
           </SidebarHeader>
           <SidebarContent>
             <div className="px-3 py-2">
-              <h2 className="px-4 text-xs font-medium text-muted-foreground">DASHBOARD</h2>
+              <h2 className="px-4 pb-2 text-xs font-medium text-muted-foreground">DASHBOARD</h2>
               <SidebarMenu>
                 <SidebarMenuItem>
                   <SidebarMenuButton
@@ -94,7 +94,7 @@ export default function Dashboard() {
               </SidebarMenu>
             </div>
             <div className="px-3 py-2">
-              <h2 className="px-4 text-xs font-medium text-muted-foreground">COMMUNICATION</h2>
+              <h2 className="px-4 pb-2 text-xs font-medium text-muted-foreground">COMMUNICATION</h2>
               <SidebarMenu>
                 <SidebarMenuItem>
                   <SidebarMenuButton asChild>
@@ -115,7 +115,7 @@ export default function Dashboard() {
               </SidebarMenu>
             </div>
             <div className="px-3 py-2">
-              <h2 className="px-4 text-xs font-medium text-muted-foreground">ACCOUNT</h2>
+              <h2 className="px-4 pb-2 text-xs font-medium text-muted-foreground">ACCOUNT</h2>
               <SidebarMenu>
                 <SidebarMenuItem>
                   <SidebarMenuButton asChild>
@@ -152,7 +152,7 @@ export default function Dashboard() {
           </SidebarFooter>
         </Sidebar>
 
-        <div className="flex-1">
+        <div className="flex-1 flex flex-col">
           <header className="flex items-center justify-between h-16 px-6 border-b">
             <div className="flex items-center gap-4">
               <SidebarTrigger />
@@ -182,10 +182,10 @@ export default function Dashboard() {
             </div>
           </header>
 
-          <main className="p-6">
+          <main className="flex-1 px-6 py-4 max-w-[1600px] w-full mx-auto">
             {activeTab === "overview" && (
               <div className="space-y-6">
-                <div className="grid gap-6 md:grid-cols-3">
+                <div className="grid gap-6 grid-cols-1 md:grid-cols-3">
                   <Card className="border-l-4 border-l-primary">
                     <CardHeader className="pb-2">
                       <CardTitle className="text-sm font-medium">Current Plan</CardTitle>

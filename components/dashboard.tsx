@@ -15,10 +15,9 @@ import {
   User,
   Wifi,
 } from "lucide-react"
-// Assuming your Image component is correctly set up for Framer
-// If not, you might use a simple <img> or Framer's Image component
-import Image from "next/image" // For Next.js context; Framer might need a different approach or package
-import Link from "next/link" // For Next.js context; Framer handles navigation differently
+// Note: Next.js specific imports. For Framer, replace with Framer's equivalents or ensure packages are compatible.
+import Image from "next/image"
+import Link from "next/link"
 
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -26,8 +25,8 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Progress } from "@/components/ui/progress"
 import { Separator } from "@/components/ui/separator"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { DataUsageChart } from "./data-usage-chart" // Ensure this path is correct for Framer
-import { CountryAddOns } from "./country-add-ons" // Ensure this path is correct for Framer
+import { DataUsageChart } from "./data-usage-chart"
+import { CountryAddOns } from "./country-add-ons"
 import {
   Sidebar,
   SidebarContent,
@@ -38,23 +37,37 @@ import {
   SidebarMenuItem,
   SidebarProvider,
   SidebarTrigger,
-} from "@/components/ui/sidebar" // Ensure this path is correct for Framer
+  useSidebar, // Ensure this import is present and correct
+} from "@/components/ui/sidebar"
 
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState("overview")
+  const { state: sidebarState, isMobile, open: isSidebarOpen } = useSidebar();
 
-  // In Framer, 'Link' and 'Image' from Next.js might need to be replaced
-  // with Framer's own navigation/link components and image components,
-  // or you'd ensure these packages work within Framer's code component environment.
-  // For simplicity, I'll keep them as is, but note this for Framer migration.
+  // Determine margin-left for the main content based on sidebar state
+  // On mobile, sidebar is an overlay, so ml-0.
+  // On desktop, adjust margin based on whether the sidebar is expanded or collapsed (icon).
+  let marginLeftClass = "md:ml-0"; // Default for mobile
+  if (!isMobile) {
+    if (isSidebarOpen && sidebarState === "expanded") {
+      marginLeftClass = "md:ml-[16rem]"; // Default --sidebar-width. Adjust if your theme differs.
+    } else if (isSidebarOpen && sidebarState === "collapsed") {
+      // This assumes you're using collapsible="icon" or similar that results in a collapsed visible state
+      marginLeftClass = "md:ml-[3rem]"; // Default --sidebar-width-icon. Adjust if your theme differs.
+    }
+    // If isSidebarOpen is false (and using a collapsible type that hides it), ml-0 might be desired.
+    // However, with collapsible="icon", it's always "open" in a sense (either full or icon).
+  }
+
 
   return (
     <SidebarProvider>
-      <div className="flex min-h-screen bg-background"> {/* Added bg-background here for overall page background */}
-        <Sidebar>
+      <div className="flex min-h-screen bg-background">
+        {/* Set collapsible="icon" to make it shrink to icons instead of disappearing */}
+        <Sidebar collapsible="icon">
           <SidebarHeader className="flex items-center px-6 py-5 border-b">
-            {/* Framer: Replace Link with Framer's linking mechanism or a simple div/button if it's just for show */}
-            <a href="#" className="flex items-center gap-2"> {/* Changed Link to <a> for Framer example */}
+            {/* For Framer, replace <Link> with Framer's navigation or a simple clickable element */}
+            <a href="#" className="flex items-center gap-2">
               <Radio className="w-6 h-6 text-primary" />
               <span className="text-xl font-bold">gSIM</span>
             </a>
@@ -160,9 +173,11 @@ export default function Dashboard() {
           </SidebarFooter>
         </Sidebar>
 
-        {/* Main Content Area Wrapper */}
-        <div className="flex-1 flex flex-col w-full overflow-x-hidden"> {/* MODIFICATION: Added w-full and overflow-x-hidden */}
-          <header className="flex items-center justify-between h-16 px-6 border-b shrink-0"> {/* MODIFICATION: Added shrink-0 to prevent header from shrinking in flex layout */}
+        {/* Main Content Area Wrapper - Applies dynamic margin-left */}
+        <div
+          className={`flex-1 flex flex-col w-full overflow-x-hidden transition-all duration-300 ease-in-out ${marginLeftClass}`}
+        >
+          <header className="flex items-center justify-between h-16 px-6 border-b shrink-0">
             <div className="flex items-center gap-4">
               <SidebarTrigger />
               <h1 className="text-xl font-semibold">Dashboard</h1>
@@ -176,9 +191,9 @@ export default function Dashboard() {
                 Top Up
               </Button>
               <div className="flex items-center gap-2">
-                {/* In Framer, you'll need to handle image assets differently */}
-                <img // Changed from Next/Image
-                  src="https://via.placeholder.com/32" // Placeholder image
+                {/* In Framer, replace Next/Image or use a compatible image solution */}
+                <img
+                  src="https://via.placeholder.com/32" // Placeholder, replace with actual or Framer asset
                   width={32}
                   height={32}
                   alt="User avatar"
@@ -192,12 +207,13 @@ export default function Dashboard() {
             </div>
           </header>
 
-          {/* Centering and Max-Width Container for Main Content */}
-          <main className="flex-1 px-6 py-4 w-full flex justify-center"> {/* MODIFICATION: Added flex justify-center */}
-            <div className="w-full max-w-screen-xl"> {/* MODIFICATION: Added container for content with max-width */}
+          {/* Main content, allows vertical scroll, centers its child */}
+          <main className="flex-1 px-6 py-4 w-full overflow-y-auto">
+            {/* Inner container for content centering and max-width */}
+            <div className="w-full max-w-screen-xl mx-auto">
               {activeTab === "overview" && (
                 <div className="space-y-6">
-                  <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3"> {/* Adjusted grid for responsiveness */}
+                  <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
                     <Card className="border-l-4 border-l-primary">
                       <CardHeader className="pb-2">
                         <CardTitle className="text-sm font-medium">Current Plan</CardTitle>
@@ -264,7 +280,7 @@ export default function Dashboard() {
                   </div>
 
                   <Tabs defaultValue="data-usage">
-                    <TabsList className="grid w-full grid-cols-1 sm:grid-cols-3"> {/* Responsive TabsList */}
+                    <TabsList className="grid w-full grid-cols-1 sm:grid-cols-3">
                       <TabsTrigger value="data-usage">Data Usage</TabsTrigger>
                       <TabsTrigger value="call-history">Call History</TabsTrigger>
                       <TabsTrigger value="message-history">Message History</TabsTrigger>
@@ -354,14 +370,13 @@ export default function Dashboard() {
                 <div className="space-y-6">
                   <h2 className="text-2xl font-bold">Browse Plans</h2>
                   <Tabs defaultValue="global">
-                    <TabsList className="grid w-full grid-cols-1 sm:grid-cols-3"> {/* Responsive TabsList */}
+                    <TabsList className="grid w-full grid-cols-1 sm:grid-cols-3">
                       <TabsTrigger value="global">Global</TabsTrigger>
                       <TabsTrigger value="regional">Regional</TabsTrigger>
                       <TabsTrigger value="country">Country Specific</TabsTrigger>
                     </TabsList>
                     <TabsContent value="global" className="mt-4">
-                      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3"> {/* Adjusted grid */}
-                        {/* Plan Cards ... */}
+                      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                         <Card>
                           <CardHeader>
                             <CardTitle>Starter Plan</CardTitle>
@@ -482,8 +497,7 @@ export default function Dashboard() {
                       </div>
                     </TabsContent>
                     <TabsContent value="regional" className="mt-4">
-                      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3"> {/* Adjusted grid */}
-                        {/* Regional Plan Cards ... */}
+                      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                         <Card>
                           <CardHeader>
                             <CardTitle>Europe Explorer</CardTitle>
@@ -588,7 +602,7 @@ export default function Dashboard() {
                           <Globe className="w-5 h-5 text-primary" />
                           <h3 className="text-lg font-medium">Select a Country</h3>
                         </div>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"> {/* Responsive Grid */}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                           {[
                             "United States",
                             "Japan",
@@ -620,8 +634,7 @@ export default function Dashboard() {
               {activeTab === "usage" && (
                 <div className="space-y-6">
                   <h2 className="text-2xl font-bold">Usage & Billing</h2>
-                  <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3"> {/* Adjusted grid */}
-                    {/* Usage Cards ... */}
+                  <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                     <Card>
                       <CardHeader>
                         <CardTitle>Data Usage</CardTitle>
@@ -638,7 +651,7 @@ export default function Dashboard() {
                           <h4 className="text-sm font-medium mb-2">Usage Breakdown</h4>
                           <div className="space-y-2">
                             <div className="flex justify-between text-sm">
-                              <span>Web Browse</span>
+                              <span>Web Browsing</span>
                               <span>1.2 GB</span>
                             </div>
                             <Progress value={24} className="h-1.5" />
@@ -748,7 +761,7 @@ export default function Dashboard() {
                       </CardHeader>
                       <CardContent>
                         <div className="rounded-md border">
-                          <div className="relative w-full overflow-auto"> {/* Added overflow-auto for table responsiveness */}
+                          <div className="relative w-full overflow-auto">
                             <table className="w-full caption-bottom text-sm">
                               <thead>
                                 <tr className="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">

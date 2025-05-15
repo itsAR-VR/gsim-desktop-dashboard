@@ -182,7 +182,7 @@ export default function Dashboard() {
             </div>
           </header>
 
-          <main className="flex-1 px-6 py-4 max-w-[1600px] w-full mx-auto">
+          <main className="flex-1 px-6 py-4 w-full">
             {activeTab === "overview" && (
               <div className="space-y-6">
                 <div className="grid gap-6 grid-cols-1 md:grid-cols-3">

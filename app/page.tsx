@@ -1,5 +1,5 @@
-import Dashboard from "@/components/dashboard"
+import DashboardWrapper from "./dashboard-wrapper"
 
 export default function Home() {
-  return <Dashboard />
+  return <DashboardWrapper />
 }

@@ -13,27 +13,15 @@ import { Separator } from "@/components/ui/separator"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { cn } from "@/lib/utils"
 
-const popularCountries = [
-  { name: "United States", code: "US", flag: "🇺🇸" },
-  { name: "United Kingdom", code: "GB", flag: "🇬🇧" },
-  { name: "Japan", code: "JP", flag: "🇯🇵" },
-  { name: "France", code: "FR", flag: "🇫🇷" },
-  { name: "Germany", code: "DE", flag: "🇩🇪" },
-  { name: "Canada", code: "CA", flag: "🇨🇦" },
-  { name: "Australia", code: "AU", flag: "🇦🇺" },
-  { name: "Italy", code: "IT", flag: "🇮🇹" },
-]
-
-const allCountries = [
-  ...popularCountries,
-  { name: "Spain", code: "ES", flag: "🇪🇸" },
-  { name: "Brazil", code: "BR", flag: "🇧🇷" },
-  { name: "China", code: "CN", flag: "🇨🇳" },
-  { name: "South Korea", code: "KR", flag: "🇰🇷" },
-  { name: "Mexico", code: "MX", flag: "🇲🇽" },
-  { name: "India", code: "IN", flag: "🇮🇳" },
-  { name: "Netherlands", code: "NL", flag: "🇳🇱" },
-  { name: "Singapore", code: "SG", flag: "🇸🇬" },
+// Updated to only include the 7 supported countries
+const supportedCountries = [
+  { name: "Pakistan", code: "PK", flag: "🇵🇰", carriers: ["Ufone", "Telenor", "Jazz", "Zong"] },
+  { name: "Saudi Arabia", code: "SA", flag: "🇸🇦", carriers: ["STC", "Mobily"] },
+  { name: "UAE", code: "AE", flag: "🇦🇪", carriers: ["Du", "Etisalat"] },
+  { name: "China", code: "CN", flag: "🇨🇳", carriers: ["China Mobile (roaming-based)"] },
+  { name: "India", code: "IN", flag: "🇮🇳", carriers: ["Airtel", "Jio", "BSNL", "Vodafone"] },
+  { name: "USA", code: "US", flag: "🇺🇸", carriers: ["AT&T", "T-Mobile", "Verizon"] },
+  { name: "Canada", code: "CA", flag: "🇨🇦", carriers: ["Koodo", "Freedom", "Lucky Mobile", "Chatr"] },
 ]
 
 export function CountryAddOns() {
@@ -44,7 +32,7 @@ export function CountryAddOns() {
   const handleCountrySelect = (currentValue) => {
     setValue(currentValue === value ? "" : currentValue)
     setOpen(false)
-    setSelectedCountry(allCountries.find((country) => country.code === currentValue))
+    setSelectedCountry(supportedCountries.find((country) => country.code === currentValue))
   }
 
   return (
@@ -64,7 +52,7 @@ export function CountryAddOns() {
                 aria-expanded={open}
                 className="justify-between w-full md:w-[240px]"
               >
-                {value ? allCountries.find((country) => country.code === value)?.name : "Select country..."}
+                {value ? supportedCountries.find((country) => country.code === value)?.name : "Select country..."}
                 <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
               </Button>
             </PopoverTrigger>
@@ -74,7 +62,7 @@ export function CountryAddOns() {
                 <CommandList>
                   <CommandEmpty>No country found.</CommandEmpty>
                   <CommandGroup>
-                    {allCountries.map((country) => (
+                    {supportedCountries.map((country) => (
                       <CommandItem key={country.code} value={country.code} onSelect={handleCountrySelect}>
                         <Check className={cn("mr-2 h-4 w-4", value === country.code ? "opacity-100" : "opacity-0")} />
                         <span className="mr-2">{country.flag}</span>
@@ -101,7 +89,14 @@ export function CountryAddOns() {
               <div className="text-4xl">{selectedCountry.flag}</div>
               <div>
                 <CardTitle>{selectedCountry.name}</CardTitle>
-                <div className="text-sm text-muted-foreground">Select a plan for {selectedCountry.name}</div>
+                <div className="text-sm text-muted-foreground">
+                  Select a plan for {selectedCountry.name}
+                  <div className="mt-1">
+                    <Badge variant="outline" className="mr-1">
+                      {selectedCountry.carriers.join(", ")}
+                    </Badge>
+                  </div>
+                </div>
               </div>
             </CardHeader>
 
@@ -287,9 +282,9 @@ export function CountryAddOns() {
         </div>
       ) : (
         <div className="space-y-6">
-          <h3 className="text-lg font-medium">Popular Countries</h3>
+          <h3 className="text-lg font-medium">Supported Countries</h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {popularCountries.map((country) => (
+            {supportedCountries.map((country) => (
               <Card
                 key={country.code}
                 className="cursor-pointer hover:border-primary transition-colors"
@@ -302,29 +297,7 @@ export function CountryAddOns() {
                   <div className="text-3xl">{country.flag}</div>
                   <div>
                     <div className="font-medium">{country.name}</div>
-                    <div className="text-xs text-muted-foreground">3 plans available</div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-
-          <h3 className="text-lg font-medium pt-4">Recently Used</h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {popularCountries.slice(0, 4).map((country) => (
-              <Card
-                key={country.code}
-                className="cursor-pointer hover:border-primary transition-colors"
-                onClick={() => {
-                  setValue(country.code)
-                  setSelectedCountry(country)
-                }}
-              >
-                <CardContent className="p-4 flex items-center gap-3">
-                  <div className="text-3xl">{country.flag}</div>
-                  <div>
-                    <div className="font-medium">{country.name}</div>
-                    <div className="text-xs text-muted-foreground">Last used May 10</div>
+                    <div className="text-xs text-muted-foreground">{country.carriers.length} carriers available</div>
                   </div>
                 </CardContent>
               </Card>

@@ -36,36 +36,46 @@ export function CountryAddOns() {
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col md:flex-row gap-4 md:items-center md:justify-between">
+    <div className="space-y-4 sm:space-y-6">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-center gap-2">
-          <Globe className="w-5 h-5 text-primary" />
-          <h3 className="text-lg font-medium">Country-Specific Add-ons</h3>
+          <Globe className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
+          <h3 className="text-base sm:text-lg font-medium">Country-Specific Add-ons</h3>
         </div>
 
-        <div className="flex flex-col md:flex-row gap-4">
+        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
           <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>
               <Button
                 variant="outline"
                 role="combobox"
                 aria-expanded={open}
-                className="justify-between w-full md:w-[240px]"
+                className="justify-between w-full sm:w-[200px] text-xs sm:text-sm"
               >
                 {value ? supportedCountries.find((country) => country.code === value)?.name : "Select country..."}
-                <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                <ChevronsUpDown className="ml-1 sm:ml-2 h-3 w-3 sm:h-4 sm:w-4 shrink-0 opacity-50" />
               </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-full md:w-[240px] p-0">
+            <PopoverContent className="w-full sm:w-[200px] p-0">
               <Command>
-                <CommandInput placeholder="Search country..." />
+                <CommandInput placeholder="Search country..." className="text-xs sm:text-sm" />
                 <CommandList>
                   <CommandEmpty>No country found.</CommandEmpty>
                   <CommandGroup>
                     {supportedCountries.map((country) => (
-                      <CommandItem key={country.code} value={country.code} onSelect={handleCountrySelect}>
-                        <Check className={cn("mr-2 h-4 w-4", value === country.code ? "opacity-100" : "opacity-0")} />
-                        <span className="mr-2">{country.flag}</span>
+                      <CommandItem
+                        key={country.code}
+                        value={country.code}
+                        onSelect={handleCountrySelect}
+                        className="text-xs sm:text-sm"
+                      >
+                        <Check
+                          className={cn(
+                            "mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4",
+                            value === country.code ? "opacity-100" : "opacity-0",
+                          )}
+                        />
+                        <span className="mr-1 sm:mr-2">{country.flag}</span>
                         {country.name}
                       </CommandItem>
                     ))}
@@ -76,202 +86,214 @@ export function CountryAddOns() {
           </Popover>
 
           <div className="relative">
-            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input type="search" placeholder="Search by name or keyword..." className="pl-9 w-full" />
+            <Search className="absolute left-2 top-2 sm:left-2.5 sm:top-2.5 h-3 w-3 sm:h-4 sm:w-4 text-muted-foreground" />
+            <Input
+              type="search"
+              placeholder="Search by name..."
+              className="pl-7 sm:pl-9 w-full text-xs sm:text-sm h-8 sm:h-10"
+            />
           </div>
         </div>
       </div>
 
       {selectedCountry ? (
-        <div className="space-y-6">
+        <div className="space-y-4 sm:space-y-6">
           <Card>
-            <CardHeader className="flex flex-row items-center gap-4">
-              <div className="text-4xl">{selectedCountry.flag}</div>
-              <div>
-                <CardTitle>{selectedCountry.name}</CardTitle>
-                <div className="text-sm text-muted-foreground">
-                  Select a plan for {selectedCountry.name}
-                  <div className="mt-1">
-                    <Badge variant="outline" className="mr-1">
-                      {selectedCountry.carriers.join(", ")}
+            <CardHeader className="px-3 sm:px-6">
+              <div className="flex flex-col items-center text-center mb-2">
+                <div className="text-4xl sm:text-5xl mb-2 sm:mb-3">{selectedCountry.flag}</div>
+                <CardTitle className="text-lg sm:text-xl">{selectedCountry.name}</CardTitle>
+              </div>
+              <div className="text-xs sm:text-sm text-muted-foreground text-center">
+                Select a plan for {selectedCountry.name}
+                <div className="mt-2 flex flex-wrap justify-center gap-1">
+                  {selectedCountry.carriers.map((carrier) => (
+                    <Badge key={carrier} variant="outline" className="text-xs px-1.5 py-0.5 sm:px-2 sm:py-0.5">
+                      {carrier}
                     </Badge>
-                  </div>
+                  ))}
                 </div>
               </div>
             </CardHeader>
 
-            <CardContent>
+            <CardContent className="px-3 sm:px-6">
               <Tabs defaultValue="data">
                 <TabsList className="grid grid-cols-3 w-full">
-                  <TabsTrigger value="data">Data</TabsTrigger>
-                  <TabsTrigger value="voice">Voice</TabsTrigger>
-                  <TabsTrigger value="combo">Combo</TabsTrigger>
+                  <TabsTrigger value="data" className="text-xs sm:text-sm">
+                    Data
+                  </TabsTrigger>
+                  <TabsTrigger value="voice" className="text-xs sm:text-sm">
+                    Voice
+                  </TabsTrigger>
+                  <TabsTrigger value="combo" className="text-xs sm:text-sm">
+                    Combo
+                  </TabsTrigger>
                 </TabsList>
-                <TabsContent value="data" className="mt-4">
-                  <div className="grid gap-4 md:grid-cols-3">
+                <TabsContent value="data" className="mt-3 sm:mt-4">
+                  <div className="grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-3">
                     <Card>
-                      <CardHeader>
-                        <CardTitle className="text-base">1GB Data</CardTitle>
+                      <CardHeader className="px-3 py-2 sm:px-4 sm:py-3">
+                        <CardTitle className="text-sm sm:text-base">1GB Data</CardTitle>
                       </CardHeader>
-                      <CardContent>
-                        <div className="text-2xl font-bold">$9.99</div>
-                        <div className="text-muted-foreground text-sm mt-1">Valid for 7 days</div>
-                        <Separator className="my-3" />
-                        <div className="text-sm">1GB of high-speed data in {selectedCountry.name}</div>
+                      <CardContent className="px-3 sm:px-4">
+                        <div className="text-xl sm:text-2xl font-bold">$9.99</div>
+                        <div className="text-muted-foreground text-xs sm:text-sm mt-1">Valid for 7 days</div>
+                        <Separator className="my-2 sm:my-3" />
+                        <div className="text-xs sm:text-sm">1GB of high-speed data in {selectedCountry.name}</div>
                       </CardContent>
-                      <CardFooter>
-                        <Button variant="outline" className="w-full">
+                      <CardFooter className="px-3 sm:px-4">
+                        <Button variant="outline" className="w-full text-xs sm:text-sm">
                           Add to Plan
                         </Button>
                       </CardFooter>
                     </Card>
                     <Card className="border-primary">
-                      <CardHeader>
+                      <CardHeader className="px-3 py-2 sm:px-4 sm:py-3">
                         <div className="flex justify-between items-center">
-                          <CardTitle className="text-base">3GB Data</CardTitle>
-                          <Badge>Best Value</Badge>
+                          <CardTitle className="text-sm sm:text-base">3GB Data</CardTitle>
+                          <Badge className="text-xs px-1.5 py-0.5">Best Value</Badge>
                         </div>
                       </CardHeader>
-                      <CardContent>
-                        <div className="text-2xl font-bold">$19.99</div>
-                        <div className="text-muted-foreground text-sm mt-1">Valid for 30 days</div>
-                        <Separator className="my-3" />
-                        <div className="text-sm">3GB of high-speed data in {selectedCountry.name}</div>
+                      <CardContent className="px-3 sm:px-4">
+                        <div className="text-xl sm:text-2xl font-bold">$19.99</div>
+                        <div className="text-muted-foreground text-xs sm:text-sm mt-1">Valid for 30 days</div>
+                        <Separator className="my-2 sm:my-3" />
+                        <div className="text-xs sm:text-sm">3GB of high-speed data in {selectedCountry.name}</div>
                       </CardContent>
-                      <CardFooter>
-                        <Button className="w-full">Add to Plan</Button>
+                      <CardFooter className="px-3 sm:px-4">
+                        <Button className="w-full text-xs sm:text-sm">Add to Plan</Button>
                       </CardFooter>
                     </Card>
                     <Card>
-                      <CardHeader>
-                        <CardTitle className="text-base">5GB Data</CardTitle>
+                      <CardHeader className="px-3 py-2 sm:px-4 sm:py-3">
+                        <CardTitle className="text-sm sm:text-base">5GB Data</CardTitle>
                       </CardHeader>
-                      <CardContent>
-                        <div className="text-2xl font-bold">$29.99</div>
-                        <div className="text-muted-foreground text-sm mt-1">Valid for 30 days</div>
-                        <Separator className="my-3" />
-                        <div className="text-sm">5GB of high-speed data in {selectedCountry.name}</div>
+                      <CardContent className="px-3 sm:px-4">
+                        <div className="text-xl sm:text-2xl font-bold">$29.99</div>
+                        <div className="text-muted-foreground text-xs sm:text-sm mt-1">Valid for 30 days</div>
+                        <Separator className="my-2 sm:my-3" />
+                        <div className="text-xs sm:text-sm">5GB of high-speed data in {selectedCountry.name}</div>
                       </CardContent>
-                      <CardFooter>
-                        <Button variant="outline" className="w-full">
+                      <CardFooter className="px-3 sm:px-4">
+                        <Button variant="outline" className="w-full text-xs sm:text-sm">
                           Add to Plan
                         </Button>
                       </CardFooter>
                     </Card>
                   </div>
                 </TabsContent>
-                <TabsContent value="voice" className="mt-4">
-                  <div className="grid gap-4 md:grid-cols-3">
+                <TabsContent value="voice" className="mt-3 sm:mt-4">
+                  <div className="grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-3">
                     <Card>
-                      <CardHeader>
-                        <CardTitle className="text-base">100 Minutes</CardTitle>
+                      <CardHeader className="px-3 py-2 sm:px-4 sm:py-3">
+                        <CardTitle className="text-sm sm:text-base">100 Minutes</CardTitle>
                       </CardHeader>
-                      <CardContent>
-                        <div className="text-2xl font-bold">$7.99</div>
-                        <div className="text-muted-foreground text-sm mt-1">Valid for 7 days</div>
-                        <Separator className="my-3" />
-                        <div className="text-sm">100 minutes of voice calls in {selectedCountry.name}</div>
+                      <CardContent className="px-3 sm:px-4">
+                        <div className="text-xl sm:text-2xl font-bold">$7.99</div>
+                        <div className="text-muted-foreground text-xs sm:text-sm mt-1">Valid for 7 days</div>
+                        <Separator className="my-2 sm:my-3" />
+                        <div className="text-xs sm:text-sm">100 minutes of voice calls in {selectedCountry.name}</div>
                       </CardContent>
-                      <CardFooter>
-                        <Button variant="outline" className="w-full">
+                      <CardFooter className="px-3 sm:px-4">
+                        <Button variant="outline" className="w-full text-xs sm:text-sm">
                           Add to Plan
                         </Button>
                       </CardFooter>
                     </Card>
                     <Card className="border-primary">
-                      <CardHeader>
+                      <CardHeader className="px-3 py-2 sm:px-4 sm:py-3">
                         <div className="flex justify-between items-center">
-                          <CardTitle className="text-base">300 Minutes</CardTitle>
-                          <Badge>Best Value</Badge>
+                          <CardTitle className="text-sm sm:text-base">300 Minutes</CardTitle>
+                          <Badge className="text-xs px-1.5 py-0.5">Best Value</Badge>
                         </div>
                       </CardHeader>
-                      <CardContent>
-                        <div className="text-2xl font-bold">$17.99</div>
-                        <div className="text-muted-foreground text-sm mt-1">Valid for 30 days</div>
-                        <Separator className="my-3" />
-                        <div className="text-sm">300 minutes of voice calls in {selectedCountry.name}</div>
+                      <CardContent className="px-3 sm:px-4">
+                        <div className="text-xl sm:text-2xl font-bold">$17.99</div>
+                        <div className="text-muted-foreground text-xs sm:text-sm mt-1">Valid for 30 days</div>
+                        <Separator className="my-2 sm:my-3" />
+                        <div className="text-xs sm:text-sm">300 minutes of voice calls in {selectedCountry.name}</div>
                       </CardContent>
-                      <CardFooter>
-                        <Button className="w-full">Add to Plan</Button>
+                      <CardFooter className="px-3 sm:px-4">
+                        <Button className="w-full text-xs sm:text-sm">Add to Plan</Button>
                       </CardFooter>
                     </Card>
                     <Card>
-                      <CardHeader>
-                        <CardTitle className="text-base">500 Minutes</CardTitle>
+                      <CardHeader className="px-3 py-2 sm:px-4 sm:py-3">
+                        <CardTitle className="text-sm sm:text-base">500 Minutes</CardTitle>
                       </CardHeader>
-                      <CardContent>
-                        <div className="text-2xl font-bold">$24.99</div>
-                        <div className="text-muted-foreground text-sm mt-1">Valid for 30 days</div>
-                        <Separator className="my-3" />
-                        <div className="text-sm">500 minutes of voice calls in {selectedCountry.name}</div>
+                      <CardContent className="px-3 sm:px-4">
+                        <div className="text-xl sm:text-2xl font-bold">$24.99</div>
+                        <div className="text-muted-foreground text-xs sm:text-sm mt-1">Valid for 30 days</div>
+                        <Separator className="my-2 sm:my-3" />
+                        <div className="text-xs sm:text-sm">500 minutes of voice calls in {selectedCountry.name}</div>
                       </CardContent>
-                      <CardFooter>
-                        <Button variant="outline" className="w-full">
+                      <CardFooter className="px-3 sm:px-4">
+                        <Button variant="outline" className="w-full text-xs sm:text-sm">
                           Add to Plan
                         </Button>
                       </CardFooter>
                     </Card>
                   </div>
                 </TabsContent>
-                <TabsContent value="combo" className="mt-4">
-                  <div className="grid gap-4 md:grid-cols-2">
+                <TabsContent value="combo" className="mt-3 sm:mt-4">
+                  <div className="grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-2">
                     <Card>
-                      <CardHeader>
-                        <CardTitle className="text-base">Basic Combo</CardTitle>
+                      <CardHeader className="px-3 py-2 sm:px-4 sm:py-3">
+                        <CardTitle className="text-sm sm:text-base">Basic Combo</CardTitle>
                       </CardHeader>
-                      <CardContent>
-                        <div className="text-2xl font-bold">$24.99</div>
-                        <div className="text-muted-foreground text-sm mt-1">Valid for 15 days</div>
-                        <Separator className="my-3" />
-                        <ul className="space-y-2 text-sm">
-                          <li className="flex items-center gap-2">
-                            <Check className="w-4 h-4 text-primary" />
+                      <CardContent className="px-3 sm:px-4">
+                        <div className="text-xl sm:text-2xl font-bold">$24.99</div>
+                        <div className="text-muted-foreground text-xs sm:text-sm mt-1">Valid for 15 days</div>
+                        <Separator className="my-2 sm:my-3" />
+                        <ul className="space-y-1 sm:space-y-2 text-xs sm:text-sm">
+                          <li className="flex items-center gap-1 sm:gap-2">
+                            <Check className="w-3 h-3 sm:w-4 sm:h-4 text-primary" />
                             2GB Data
                           </li>
-                          <li className="flex items-center gap-2">
-                            <Check className="w-4 h-4 text-primary" />
+                          <li className="flex items-center gap-1 sm:gap-2">
+                            <Check className="w-3 h-3 sm:w-4 sm:h-4 text-primary" />
                             100 Minutes Voice
                           </li>
-                          <li className="flex items-center gap-2">
-                            <Check className="w-4 h-4 text-primary" />
+                          <li className="flex items-center gap-1 sm:gap-2">
+                            <Check className="w-3 h-3 sm:w-4 sm:h-4 text-primary" />
                             50 SMS
                           </li>
                         </ul>
                       </CardContent>
-                      <CardFooter>
-                        <Button variant="outline" className="w-full">
+                      <CardFooter className="px-3 sm:px-4">
+                        <Button variant="outline" className="w-full text-xs sm:text-sm">
                           Add to Plan
                         </Button>
                       </CardFooter>
                     </Card>
                     <Card className="border-primary">
-                      <CardHeader>
+                      <CardHeader className="px-3 py-2 sm:px-4 sm:py-3">
                         <div className="flex justify-between items-center">
-                          <CardTitle className="text-base">Premium Combo</CardTitle>
-                          <Badge>Best Value</Badge>
+                          <CardTitle className="text-sm sm:text-base">Premium Combo</CardTitle>
+                          <Badge className="text-xs px-1.5 py-0.5">Best Value</Badge>
                         </div>
                       </CardHeader>
-                      <CardContent>
-                        <div className="text-2xl font-bold">$39.99</div>
-                        <div className="text-muted-foreground text-sm mt-1">Valid for 30 days</div>
-                        <Separator className="my-3" />
-                        <ul className="space-y-2 text-sm">
-                          <li className="flex items-center gap-2">
-                            <Check className="w-4 h-4 text-primary" />
+                      <CardContent className="px-3 sm:px-4">
+                        <div className="text-xl sm:text-2xl font-bold">$39.99</div>
+                        <div className="text-muted-foreground text-xs sm:text-sm mt-1">Valid for 30 days</div>
+                        <Separator className="my-2 sm:my-3" />
+                        <ul className="space-y-1 sm:space-y-2 text-xs sm:text-sm">
+                          <li className="flex items-center gap-1 sm:gap-2">
+                            <Check className="w-3 h-3 sm:w-4 sm:h-4 text-primary" />
                             5GB Data
                           </li>
-                          <li className="flex items-center gap-2">
-                            <Check className="w-4 h-4 text-primary" />
+                          <li className="flex items-center gap-1 sm:gap-2">
+                            <Check className="w-3 h-3 sm:w-4 sm:h-4 text-primary" />
                             300 Minutes Voice
                           </li>
-                          <li className="flex items-center gap-2">
-                            <Check className="w-4 h-4 text-primary" />
+                          <li className="flex items-center gap-1 sm:gap-2">
+                            <Check className="w-3 h-3 sm:w-4 sm:h-4 text-primary" />
                             100 SMS
                           </li>
                         </ul>
                       </CardContent>
-                      <CardFooter>
-                        <Button className="w-full">Add to Plan</Button>
+                      <CardFooter className="px-3 sm:px-4">
+                        <Button className="w-full text-xs sm:text-sm">Add to Plan</Button>
                       </CardFooter>
                     </Card>
                   </div>
@@ -281,9 +303,9 @@ export function CountryAddOns() {
           </Card>
         </div>
       ) : (
-        <div className="space-y-6">
-          <h3 className="text-lg font-medium">Supported Countries</h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="space-y-4 sm:space-y-6">
+          <h3 className="text-base sm:text-lg font-medium">Supported Countries</h3>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4">
             {supportedCountries.map((country) => (
               <Card
                 key={country.code}
@@ -293,11 +315,11 @@ export function CountryAddOns() {
                   setSelectedCountry(country)
                 }}
               >
-                <CardContent className="p-4 flex items-center gap-3">
-                  <div className="text-3xl">{country.flag}</div>
+                <CardContent className="p-3 sm:p-4 flex flex-col items-center text-center">
+                  <div className="text-3xl sm:text-4xl mb-2">{country.flag}</div>
                   <div>
-                    <div className="font-medium">{country.name}</div>
-                    <div className="text-xs text-muted-foreground">{country.carriers.length} carriers available</div>
+                    <div className="font-medium text-xs sm:text-sm">{country.name}</div>
+                    <div className="text-xs text-muted-foreground">{country.carriers.length} carriers</div>
                   </div>
                 </CardContent>
               </Card>

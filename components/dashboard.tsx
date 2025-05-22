@@ -75,15 +75,18 @@ function DashboardContent({ activeTab, setActiveTab }) {
       <main className="flex-1 px-2 sm:px-6 py-3 sm:py-4 w-full overflow-y-auto overflow-x-hidden">
         {activeTab === "overview" && (
           <div className="space-y-4 sm:space-y-6">
+            <div className="bg-primary/10 rounded-lg p-3 mb-4 text-center">
+              <p className="text-sm font-medium">Currently for Lucky Mobile only</p>
+            </div>
             <div className="grid gap-3 sm:gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
               <Card className="border-l-4 border-l-primary">
                 <CardHeader className="pb-2 px-3 sm:px-6">
                   <CardTitle className="text-sm font-medium">Current Plan</CardTitle>
                 </CardHeader>
                 <CardContent className="px-3 sm:px-6">
-                  <div className="text-xl sm:text-2xl font-bold">Traveller Plan</div>
+                  <div className="text-xl sm:text-2xl font-bold">Smart Plan</div>
                   <div className="flex flex-col sm:flex-row sm:justify-between mt-2 text-xs sm:text-sm">
-                    <div className="text-muted-foreground">3GB Data</div>
+                    <div className="text-muted-foreground">60 GB Data + 65 GB Auto-Top-Up Bonus</div>
                     <div className="text-muted-foreground">Valid until 24 Jun 2025</div>
                   </div>
                 </CardContent>
@@ -99,10 +102,10 @@ function DashboardContent({ activeTab, setActiveTab }) {
                 </CardHeader>
                 <CardContent className="space-y-2 px-3 sm:px-6">
                   <div>
-                    <span className="text-xs sm:text-sm font-medium">3.2/5 GB used</span>
+                    <span className="text-xs sm:text-sm font-medium">42.5/60 GB used</span>
                   </div>
-                  <Progress value={60} className="h-2" />
-                  <div className="text-xs text-muted-foreground">1.2 GB remaining (60% used)</div>
+                  <Progress value={70} className="h-2" />
+                  <div className="text-xs text-muted-foreground">17.5 GB remaining (70% used)</div>
                 </CardContent>
                 <CardFooter className="px-3 sm:px-6">
                   <Button variant="outline" size="sm" className="w-full text-xs">
@@ -120,17 +123,24 @@ function DashboardContent({ activeTab, setActiveTab }) {
                       <PhoneCall className="w-3 h-3 sm:w-4 sm:h-4 text-muted-foreground" />
                       <span className="text-xs sm:text-sm">Voice</span>
                     </div>
-                    <span className="text-xs sm:text-sm font-medium">72/120 mins</span>
+                    <span className="text-xs sm:text-sm font-medium text-primary">Unlimited</span>
                   </div>
-                  <Progress value={60} className="h-2" />
+                  <div className="h-2 bg-primary/10 rounded-full overflow-hidden">
+                    <div className="h-full w-full bg-primary/20 rounded-full"></div>
+                  </div>
                   <div className="flex justify-between items-center">
                     <div className="flex items-center gap-1 sm:gap-2">
                       <MessageSquare className="w-3 h-3 sm:w-4 sm:h-4 text-muted-foreground" />
                       <span className="text-xs sm:text-sm">SMS</span>
                     </div>
-                    <span className="text-xs sm:text-sm font-medium">120/200 SMS</span>
+                    <span className="text-xs sm:text-sm font-medium text-primary">Unlimited</span>
                   </div>
-                  <Progress value={60} className="h-2" />
+                  <div className="h-2 bg-primary/10 rounded-full overflow-hidden">
+                    <div className="h-full w-full bg-primary/20 rounded-full"></div>
+                  </div>
+                  <div className="text-xs text-muted-foreground mt-1">
+                    Unlimited talk and text included with your plan
+                  </div>
                 </CardContent>
                 <CardFooter className="px-3 sm:px-6">
                   <Button variant="outline" size="sm" className="w-full text-xs">
@@ -341,25 +351,21 @@ function DashboardContent({ activeTab, setActiveTab }) {
             <div className="grid gap-4 sm:gap-6 grid-cols-1 md:grid-cols-3">
               <Card>
                 <CardHeader className="px-3 sm:px-6">
-                  <CardTitle className="text-base sm:text-lg">Starter Plan</CardTitle>
-                  <CardDescription className="text-xs sm:text-sm">Perfect for short trips</CardDescription>
+                  <CardTitle className="text-base sm:text-lg">Basic Plan</CardTitle>
+                  <CardDescription className="text-xs sm:text-sm">Perfect for light users</CardDescription>
                 </CardHeader>
                 <CardContent className="px-3 sm:px-6">
-                  <div className="text-2xl sm:text-3xl font-bold">$9.99</div>
-                  <div className="text-muted-foreground mt-1 text-xs sm:text-sm">Valid for 7 days</div>
+                  <div className="text-2xl sm:text-3xl font-bold">$19</div>
+                  <div className="text-muted-foreground mt-1 text-xs sm:text-sm">Monthly</div>
                   <Separator className="my-3 sm:my-4" />
                   <ul className="space-y-1 sm:space-y-2 text-xs sm:text-sm">
                     <li className="flex items-center gap-2">
                       <Wifi className="w-3 h-3 sm:w-4 sm:h-4 text-primary" />
-                      1GB Data
+                      No included data
                     </li>
                     <li className="flex items-center gap-2">
-                      <PhoneCall className="w-3 h-3 sm:w-4 sm:h-4 text-primary" />
-                      60 minutes Voice
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <MessageSquare className="w-3 h-3 sm:w-4 sm:h-4 text-primary" />
-                      100 SMS
+                      <Plus className="w-3 h-3 sm:w-4 sm:h-4 text-primary" />
+                      500 MB Auto-Top-Up Bonus
                     </li>
                     <li className="flex items-center gap-2">
                       <Globe className="w-3 h-3 sm:w-4 sm:h-4 text-primary" />
@@ -371,30 +377,55 @@ function DashboardContent({ activeTab, setActiveTab }) {
                   <Button className="w-full text-xs sm:text-sm">Select Plan</Button>
                 </CardFooter>
               </Card>
+
+              <Card>
+                <CardHeader className="px-3 sm:px-6">
+                  <CardTitle className="text-base sm:text-lg">Value Plan</CardTitle>
+                  <CardDescription className="text-xs sm:text-sm">Great for casual users</CardDescription>
+                </CardHeader>
+                <CardContent className="px-3 sm:px-6">
+                  <div className="text-2xl sm:text-3xl font-bold">$25</div>
+                  <div className="text-muted-foreground mt-1 text-xs sm:text-sm">Monthly</div>
+                  <Separator className="my-3 sm:my-4" />
+                  <ul className="space-y-1 sm:space-y-2 text-xs sm:text-sm">
+                    <li className="flex items-center gap-2">
+                      <Wifi className="w-3 h-3 sm:w-4 sm:h-4 text-primary" />3 GB Data
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <Plus className="w-3 h-3 sm:w-4 sm:h-4 text-primary" />
+                      3.5 GB Auto-Top-Up Bonus
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <Globe className="w-3 h-3 sm:w-4 sm:h-4 text-primary" />
+                      Coverage in 7 countries
+                    </li>
+                  </ul>
+                </CardContent>
+                <CardFooter className="px-3 sm:px-6">
+                  <Button className="w-full text-xs sm:text-sm">Select Plan</Button>
+                </CardFooter>
+              </Card>
+
               <Card className="border-primary">
                 <CardHeader className="px-3 sm:px-6">
                   <div className="flex justify-between items-center">
-                    <CardTitle className="text-base sm:text-lg">Traveller Plan</CardTitle>
+                    <CardTitle className="text-base sm:text-lg">Smart Plan</CardTitle>
                     <Badge className="text-xs">Most Popular</Badge>
                   </div>
-                  <CardDescription className="text-xs sm:text-sm">Ideal for regular travelers</CardDescription>
+                  <CardDescription className="text-xs sm:text-sm">Ideal for regular users</CardDescription>
                 </CardHeader>
                 <CardContent className="px-3 sm:px-6">
-                  <div className="text-2xl sm:text-3xl font-bold">$19.99</div>
-                  <div className="text-muted-foreground mt-1 text-xs sm:text-sm">Valid for 15 days</div>
+                  <div className="text-2xl sm:text-3xl font-bold">$34</div>
+                  <div className="text-muted-foreground mt-1 text-xs sm:text-sm">Monthly</div>
                   <Separator className="my-3 sm:my-4" />
                   <ul className="space-y-1 sm:space-y-2 text-xs sm:text-sm">
                     <li className="flex items-center gap-2">
                       <Wifi className="w-3 h-3 sm:w-4 sm:h-4 text-primary" />
-                      3GB Data
+                      60 GB Data
                     </li>
                     <li className="flex items-center gap-2">
-                      <PhoneCall className="w-3 h-3 sm:w-4 sm:h-4 text-primary" />
-                      120 minutes Voice
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <MessageSquare className="w-3 h-3 sm:w-4 sm:h-4 text-primary" />
-                      200 SMS
+                      <Plus className="w-3 h-3 sm:w-4 sm:h-4 text-primary" />
+                      65 GB Auto-Top-Up Bonus
                     </li>
                     <li className="flex items-center gap-2">
                       <Globe className="w-3 h-3 sm:w-4 sm:h-4 text-primary" />
@@ -406,27 +437,24 @@ function DashboardContent({ activeTab, setActiveTab }) {
                   <Button className="w-full text-xs sm:text-sm">Select Plan</Button>
                 </CardFooter>
               </Card>
+
               <Card>
                 <CardHeader className="px-3 sm:px-6">
-                  <CardTitle className="text-base sm:text-lg">Explorer Plan</CardTitle>
-                  <CardDescription className="text-xs sm:text-sm">For frequent travelers</CardDescription>
+                  <CardTitle className="text-base sm:text-lg">Extra Plan</CardTitle>
+                  <CardDescription className="text-xs sm:text-sm">For heavy data users</CardDescription>
                 </CardHeader>
                 <CardContent className="px-3 sm:px-6">
-                  <div className="text-2xl sm:text-3xl font-bold">$29.99</div>
-                  <div className="text-muted-foreground mt-1 text-xs sm:text-sm">Valid for 30 days</div>
+                  <div className="text-2xl sm:text-3xl font-bold">$45</div>
+                  <div className="text-muted-foreground mt-1 text-xs sm:text-sm">Monthly</div>
                   <Separator className="my-3 sm:my-4" />
                   <ul className="space-y-1 sm:space-y-2 text-xs sm:text-sm">
                     <li className="flex items-center gap-2">
                       <Wifi className="w-3 h-3 sm:w-4 sm:h-4 text-primary" />
-                      5GB Data
+                      80 GB Data
                     </li>
                     <li className="flex items-center gap-2">
-                      <PhoneCall className="w-3 h-3 sm:w-4 sm:h-4 text-primary" />
-                      240 minutes Voice
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <MessageSquare className="w-3 h-3 sm:w-4 sm:h-4 text-primary" />
-                      400 SMS
+                      <Plus className="w-3 h-3 sm:w-4 sm:h-4 text-primary" />
+                      85 GB Auto-Top-Up Bonus
                     </li>
                     <li className="flex items-center gap-2">
                       <Globe className="w-3 h-3 sm:w-4 sm:h-4 text-primary" />
@@ -438,6 +466,41 @@ function DashboardContent({ activeTab, setActiveTab }) {
                   <Button className="w-full text-xs sm:text-sm">Select Plan</Button>
                 </CardFooter>
               </Card>
+
+              <Card>
+                <CardHeader className="px-3 sm:px-6">
+                  <CardTitle className="text-base sm:text-lg">Max Plan</CardTitle>
+                  <CardDescription className="text-xs sm:text-sm">Ultimate data experience</CardDescription>
+                </CardHeader>
+                <CardContent className="px-3 sm:px-6">
+                  <div className="text-2xl sm:text-3xl font-bold">$55</div>
+                  <div className="text-muted-foreground mt-1 text-xs sm:text-sm">Monthly</div>
+                  <Separator className="my-3 sm:my-4" />
+                  <ul className="space-y-1 sm:space-y-2 text-xs sm:text-sm">
+                    <li className="flex items-center gap-2">
+                      <Wifi className="w-3 h-3 sm:w-4 sm:h-4 text-primary" />
+                      100 GB Data
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <Plus className="w-3 h-3 sm:w-4 sm:h-4 text-primary" />
+                      105 GB Auto-Top-Up Bonus
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <Globe className="w-3 h-3 sm:w-4 sm:h-4 text-primary" />
+                      Coverage in 7 countries
+                    </li>
+                  </ul>
+                </CardContent>
+                <CardFooter className="px-3 sm:px-6">
+                  <Button className="w-full text-xs sm:text-sm">Select Plan</Button>
+                </CardFooter>
+              </Card>
+            </div>
+
+            <div className="mt-4 p-3 bg-muted rounded-lg">
+              <p className="text-sm text-center">
+                One-time eSIM activation fee: <strong>$10</strong>
+              </p>
             </div>
 
             <Card className="mt-4 sm:mt-8">
@@ -588,10 +651,10 @@ function DashboardContent({ activeTab, setActiveTab }) {
                 </CardHeader>
                 <CardContent className="space-y-3 sm:space-y-4 px-3 sm:px-6">
                   <div>
-                    <span className="text-xs sm:text-sm font-medium">3.2/5 GB used</span>
+                    <span className="text-xs sm:text-sm font-medium">42.5/60 GB used</span>
                   </div>
-                  <Progress value={64} className="h-2" />
-                  <div className="text-xs sm:text-sm text-muted-foreground">1.8 GB remaining</div>
+                  <Progress value={70} className="h-2" />
+                  <div className="text-xs sm:text-sm text-muted-foreground">17.5 GB remaining</div>
 
                   <div className="mt-3 sm:mt-4">
                     <h4 className="text-xs sm:text-sm font-medium mb-2">Usage Breakdown</h4>
@@ -727,27 +790,38 @@ function DashboardContent({ activeTab, setActiveTab }) {
                           {[
                             {
                               date: "May 15, 2025",
-                              desc: "Explorer Plan",
-                              amount: "$29.99",
+                              desc: "Smart Plan",
+                              amount: "$34.00",
                               status: "Paid",
                             },
                             {
                               date: "Apr 15, 2025",
-                              desc: "Explorer Plan",
-                              amount: "$29.99",
+                              desc: "Smart Plan",
+                              amount: "$34.00",
                               status: "Paid",
                             },
-                            { date: "Apr 02, 2025", desc: "Data Add-on 2GB", amount: "$15.99", status: "Paid" },
+                            {
+                              date: "Apr 02, 2025",
+                              desc: "Data Add-on 2GB",
+                              amount: "$15.99",
+                              status: "Paid",
+                            },
                             {
                               date: "Mar 15, 2025",
-                              desc: "Explorer Plan",
-                              amount: "$29.99",
+                              desc: "Smart Plan",
+                              amount: "$34.00",
                               status: "Paid",
                             },
                             {
                               date: "Feb 15, 2025",
-                              desc: "Explorer Plan",
-                              amount: "$29.99",
+                              desc: "Value Plan",
+                              amount: "$25.00",
+                              status: "Paid",
+                            },
+                            {
+                              date: "Jan 15, 2025",
+                              desc: "One-time eSIM activation fee",
+                              amount: "$10.00",
                               status: "Paid",
                             },
                           ].map((item, i) => (
